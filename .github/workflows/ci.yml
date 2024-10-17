@@ -44,7 +44,7 @@ jobs:
         done 
 
     - name: Run migrations
-      run: make migrategithubup
+      run: make migrate
 
     - name: Test
       run: make test
