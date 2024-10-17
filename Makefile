@@ -1,4 +1,4 @@
-.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test
+.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test migrategithubup migrategithub
 
 # Inicia los servicios de Docker
 postgres:
@@ -15,6 +15,12 @@ dropdb:
 # Ejecuta las migraciones
 migrate:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable up
+
+migrategithub:
+    migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
+
+migrategithubup:
+    migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migrateup:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable up
