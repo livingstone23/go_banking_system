@@ -41,10 +41,19 @@ jobs:
         until pg_isready -h localhost -p 5432; do
           echo "Waiting for PostgreSQL to be ready..."
           sleep 1
-        done 
+        done
+
+    - name: Install golang-migrate
+      run: |
+        curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
+        sudo mv migrate.linux-amd64 /usr/bin/migrate
+        which migrate    
+
+    - name: Build
+      run: go build -v ./...
 
     - name: Run migrations
-      run: make migrate
+      run: make migrategithubup
 
     - name: Test
       run: make test
