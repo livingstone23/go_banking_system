@@ -17,10 +17,10 @@ migrate:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable up
 
 migrategithub:
-    migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migrategithubup:
-    migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migrateup:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable up
