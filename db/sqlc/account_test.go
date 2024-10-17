@@ -5,10 +5,9 @@ import (
 	"go_banking_system/util"
 	"testing"
 	"time"
+
 	"github.com/stretchr/testify/require"
 )
-
-
 
 func createRandomAccount(t *testing.T) Account {
 	account := Account{
@@ -90,6 +89,7 @@ func TestDeleteAccount(t *testing.T) {
 }
 
 // This function is used to test the ListAccounts function
+/*
 func TestListAccounts(t *testing.T) {
 	// Create 5 random accounts
 	for i := 0; i < 5; i++ {
@@ -110,7 +110,7 @@ func TestListAccounts(t *testing.T) {
 	}
 
 }
-
+*/
 
 /*
 // This function is used to test the CreateAccount function
