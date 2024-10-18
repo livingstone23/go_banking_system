@@ -1,4 +1,4 @@
-.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test migrategithubup migrategithub
+.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test migrategithubup migrategithub server
 
 # Inicia los servicios de Docker
 postgres:
@@ -33,3 +33,6 @@ sqlc:
 
 test:
 	go test -v -cover ./...	
+
+server:
+	go run main.go

@@ -89,6 +89,7 @@ func TestDeleteAccount(t *testing.T) {
 }
 
 // This function is used to test the ListAccounts function
+// This function workfin but in github actions it fails
 /*
 func TestListAccounts(t *testing.T) {
 	// Create 5 random accounts

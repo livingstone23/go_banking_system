@@ -5,14 +5,10 @@ import (
 	"log"
 	"os"
 	"testing"
-
+    "go_banking_system/util"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-const (
-	dbDriver = "pgx"
-	dbSource = "postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable"
-)
 
 // this var is used to store the queries
 var testQueries *Queries
@@ -25,8 +21,16 @@ var testDB *pgxpool.Pool
 
 
 func TestMain(m *testing.M) {
-    var err error
-    testDB, err = pgxpool.New(context.Background(), dbSource)
+
+    // Load parameters from the environment
+    config, err := util.LoadConfig("../../")
+    if err != nil {
+        log.Fatal("cannot load config:", err)
+    }
+
+
+
+    testDB, err = pgxpool.New(context.Background(), config.DBSource)
     if err != nil {
         log.Fatal("cannot connect to db:", err)
     }
