@@ -8,12 +8,12 @@ import (
 
 // Server serves HTTP requests for banking services.
 type Server struct {
-	store  *db.Store   //it will allow us to interact with the database
+	store  db.Store   //it will allow us to interact with the database
 	router *gin.Engine //it will allow routing of HTTP requests to the appropriate handler functions
 }
 
 // NewServer creates a new HTTP server and set up routing.
-func NewServer(store *db.Store) *Server {
+func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 

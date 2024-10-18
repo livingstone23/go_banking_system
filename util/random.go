@@ -14,7 +14,7 @@ func init() {
 }
 
 // RamdomInit is used to generate a random number between min and max
-func RamdomInit(min, max int64) int64 {
+func RamdomInt(min, max int64) int64 {
 	return min + rand.Int63n(max-min+1)
 }
 
@@ -38,7 +38,7 @@ func RandomOwner() string {
 
 // RandomMoney is used to generate a random amount of money
 func RandomMoney() int64 {
-	return RamdomInit(0, 1000)
+	return RamdomInt(0, 1000)
 }
 
 // RandomCurrency is used to generate a random currency

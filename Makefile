@@ -1,4 +1,4 @@
-.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test migrategithubup migrategithub server
+.PHONY: postgres createdb dropdb migrate migrateup migratedown sqlc test migrategithubup migrategithub server mock
 
 # Inicia los servicios de Docker
 postgres:
@@ -36,3 +36,6 @@ test:
 
 server:
 	go run main.go
+
+mock:
+	mockgen -destination=db/mock/store.go -package=mockdb go_banking_system/db/sqlc Store

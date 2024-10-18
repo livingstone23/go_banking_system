@@ -9,12 +9,11 @@ import (
 )
 
 type createAccountRequest struct {
-	Owner string `json:"owner" binding:"required"`
+	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
 }
 
-
-// createAccount 
+// createAccount
 func (server *Server) createAccount(ctx *gin.Context) {
 	var req createAccountRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -24,9 +23,9 @@ func (server *Server) createAccount(ctx *gin.Context) {
 
 	// create a new account
 	arg := db.CreateAccountParams{
-		Owner: req.Owner,
+		Owner:    req.Owner,
 		Currency: req.Currency,
-		Balance: 0,
+		Balance:  0,
 	}
 
 	account, err := server.store.CreateAccount(ctx, arg)
@@ -55,7 +54,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 
 		//Check if not found register
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, errorResponse(err))	
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
 
@@ -68,12 +67,10 @@ func (server *Server) getAccount(ctx *gin.Context) {
 
 }
 
-
 // struct for capture the query parameters
 type listAccountRequest struct {
-	PageID int32 `form:"page_id" binding:"required,min=1"`
+	PageID   int32 `form:"page_id" binding:"required,min=1"`
 	PageSize int32 `form:"page_size" binding:"required,min=5,max=10"`
-
 }
 
 // listAccount
@@ -85,7 +82,7 @@ func (server *Server) listAccounts(ctx *gin.Context) {
 	}
 
 	arg := db.ListAccountsParams{
-		Limit: req.PageSize,
+		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
 

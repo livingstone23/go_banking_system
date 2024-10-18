@@ -15,7 +15,7 @@ sql:
             sql_package: "pgx/v5"
             emit_json_tags: true              # Queremos que se generen tags json
             emit_prepared_queries: false      # Desactivamos la generación de prepared queries
-            emit_interface: false              # Desactivamos la generación de interfaces, permite simular la Bd para probar funciones de nivel superior
+            emit_interface: true              # Permite que se generen interfaces para las tablas
             emit_exact_table_names: false      # Permite que las tablas se generen con el nombre exacto, evita manejar en nombre en plural
             emit_empty_slices: true          # Genera slices vacíos en lugar de nil
 overrides:
