@@ -3,14 +3,16 @@ package api
 import (
 	"database/sql"
 	db "go_banking_system/db/sqlc"
+	"go_banking_system/token"
 	"net/http"
-
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 type createAccountRequest struct {
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 // createAccount
@@ -21,15 +23,30 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		return
 	}
 
+	//with the authoriation middleware
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
 	// create a new account
 	arg := db.CreateAccountParams{
-		Owner:    req.Owner,
+		//Owner:    req.Owner,
+		Owner:    authPayload.Username,
 		Currency: req.Currency,
 		Balance:  0,
 	}
 
 	account, err := server.store.CreateAccount(ctx, arg)
 	if err != nil {
+
+		//tratamos de identificar el tipo de error
+		if pqErr, ok := err.(*pq.Error); ok {
+			switch pqErr.Code {
+			case "foreign_key_violation","unique_violation":
+				ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+				return
+			}
+		}
+
+
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
@@ -63,6 +80,15 @@ func (server *Server) getAccount(ctx *gin.Context) {
 		return
 	}
 
+	//with the authoriation middleware
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
+	if account.Owner != authPayload.Username {
+		err := errors.New("account does not belong to the authenticated user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
 	ctx.JSON(http.StatusOK, account)
 
 }
@@ -81,7 +107,11 @@ func (server *Server) listAccounts(ctx *gin.Context) {
 		return
 	}
 
+	//with the authoriation middleware
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
 	arg := db.ListAccountsParams{
+		Owner:  authPayload.Username,
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}

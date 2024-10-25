@@ -25,8 +25,14 @@ migrategithubup:
 migrateup:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable up
 
+migrateup1:
+	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable -verbose up 1
+
 migratedown:
 	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable down -all
+
+migratedown1:
+	docker run --rm --network host -v ./db/migrations:/migrations migrate/migrate -path /migrations -database postgres://alumno:123456@localhost:5432/simple_bank?sslmode=disable down 1 
 
 sqlc:
 	sqlc generate

@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+	"fmt"
 )
 
 // Const for indicate the soport alphabet
@@ -43,7 +44,14 @@ func RandomMoney() int64 {
 
 // RandomCurrency is used to generate a random currency
 func RandomCurrency() string {
-	currencies := []string{"USD", "EUR", "CAD", "GBP", "COR"}
+	currencies := []string{EUR, USD, COR}
 	n := len(currencies)
 	return currencies[rand.Intn(n)]
 }
+
+
+// RandomEmail generates a random email
+func RandomEmail() string {
+	return fmt.Sprintf("%s@email.com", RandomString(6))
+}
+
